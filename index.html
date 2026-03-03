@@ -10,162 +10,193 @@
 </head>
 
 <body>
-    <div class="overflow-hidden py-32">
-        <div
+    <div x-data="carousel()" class="overflow-hidden py-32">
+        <div x-ref="scrollContainer" @scroll="onScroll()"
             class="flex gap-8 px-(--scroll-padding) [scrollbar-width:none] [&::-webkit-scrollbar]:hidden snap-x snap-mandatory overflow-x-auto overscroll-x-contain scroll-smooth [--scroll-padding:max(--spacing(6),calc((100vw-(var(--container-2xl)))/2))] lg:[--scroll-padding:max(--spacing(8),calc((100vw-(var(--container-7xl)))/2))]">
-            <div style="opacity:1" class="relative flex aspect-9/16 w-72 shrink-0 snap-start scroll-ml-(--scroll-padding) flex-col justify-end overflow-hidden rounded-3xl sm:aspect-3/4 sm:w-96">
-                <img alt="" src="https://radiant.tailwindui.com/testimonials/tina-yards.jpg" class="absolute inset-x-0 top-0 aspect-square w-full object-cover">
-                <div aria-hidden="true" class="absolute inset-0 rounded-3xl bg-linear-to-t from-black from-[calc(7/16*100%)] ring-1 ring-gray-950/10 ring-inset sm:from-25%"></div>
-                <figure class="relative p-10">
-                    <blockquote>
-                        <p class="relative text-xl/7 text-white">
-                            <span aria-hidden="true" class="absolute -translate-x-full">“</span>
-                            Thanks to Radiant, we’re finding new leads that we never would have found with legal methods.
-                            <span aria-hidden="true" class="absolute">”</span>
-                        </p>
-                    </blockquote>
-                    <figcaption class="mt-6 border-t border-white/20 pt-6">
-                        <p class="text-sm/6 font-medium text-white">Tina Yards</p>
-                        <p class="text-sm/6 font-medium"><span
-                                class="bg-linear-to-r from-[#fff1be] from-28% via-[#ee87cb] via-70% to-[#b060ff] bg-clip-text text-transparent">VP
-                                of Sales, Protocol</span></p>
-                    </figcaption>
-                </figure>
-            </div>
-            <div style="opacity:1"
-                class="relative flex aspect-9/16 w-72 shrink-0 snap-start scroll-ml-(--scroll-padding) flex-col justify-end overflow-hidden rounded-3xl sm:aspect-3/4 sm:w-96">
-                <img alt="" src="https://radiant.tailwindui.com/testimonials/conor-neville.jpg"
-                    class="absolute inset-x-0 top-0 aspect-square w-full object-cover">
-                <div aria-hidden="true"
-                    class="absolute inset-0 rounded-3xl bg-linear-to-t from-black from-[calc(7/16*100%)] ring-1 ring-gray-950/10 ring-inset sm:from-25%">
+
+            <template x-for="(testimonial, index) in testimonials" :key="index">
+                <div
+                    data-testimonial-card
+                    @click="scrollTo(index)"
+                    :style="'opacity: ' + opacities[index]"
+                    class="relative flex aspect-9/16 w-72 shrink-0 snap-start scroll-ml-(--scroll-padding) flex-col justify-end overflow-hidden rounded-3xl sm:aspect-3/4 sm:w-96 transition-opacity duration-200 ease-out cursor-pointer"
+                >
+                    <img :alt="testimonial.name" :src="testimonial.img"
+                        class="absolute inset-x-0 top-0 aspect-square w-full object-cover">
+                    <div aria-hidden="true"
+                        class="absolute inset-0 rounded-3xl bg-linear-to-t from-black from-[calc(7/16*100%)] ring-1 ring-zinc-950/10 ring-inset sm:from-25%"></div>
+                    <figure class="relative p-10">
+                        <blockquote>
+                            <p class="relative text-xl/7 text-white">
+                                <span aria-hidden="true" class="absolute -translate-x-full">"</span>
+                                <span x-text="testimonial.quote"></span>
+                                <span aria-hidden="true" class="absolute">"</span>
+                            </p>
+                        </blockquote>
+                        <figcaption class="mt-6 border-t border-white/20 pt-6">
+                            <p class="text-sm/6 font-medium text-white" x-text="testimonial.name"></p>
+                            <p class="text-sm/6 font-medium">
+                                <span
+                                    class="bg-linear-to-r from-[#fff1be] from-28% via-[#ee87cb] via-70% to-[#b060ff] bg-clip-text text-transparent"
+                                    x-text="testimonial.title"></span>
+                            </p>
+                        </figcaption>
+                    </figure>
                 </div>
-                <figure class="relative p-10">
-                    <blockquote>
-                        <p class="relative text-xl/7 text-white"><span aria-hidden="true"
-                                class="absolute -translate-x-full">“</span>Radiant made undercutting all of our
-                            competitors an absolute breeze.<span aria-hidden="true" class="absolute">”</span></p>
-                    </blockquote>
-                    <figcaption class="mt-6 border-t border-white/20 pt-6">
-                        <p class="text-sm/6 font-medium text-white">Conor Neville</p>
-                        <p class="text-sm/6 font-medium"><span
-                                class="bg-linear-to-r from-[#fff1be] from-28% via-[#ee87cb] via-70% to-[#b060ff] bg-clip-text text-transparent">Head
-                                of Customer Success, TaxPal</span></p>
-                    </figcaption>
-                </figure>
-            </div>
-            <div style="opacity: 0.552083;"
-                class="relative flex aspect-9/16 w-72 shrink-0 snap-start scroll-ml-(--scroll-padding) flex-col justify-end overflow-hidden rounded-3xl sm:aspect-3/4 sm:w-96">
-                <img alt="" src="https://radiant.tailwindui.com/testimonials/amy-chase.jpg"
-                    class="absolute inset-x-0 top-0 aspect-square w-full object-cover">
-                <div aria-hidden="true"
-                    class="absolute inset-0 rounded-3xl bg-linear-to-t from-black from-[calc(7/16*100%)] ring-1 ring-gray-950/10 ring-inset sm:from-25%">
-                </div>
-                <figure class="relative p-10">
-                    <blockquote>
-                        <p class="relative text-xl/7 text-white"><span aria-hidden="true"
-                                class="absolute -translate-x-full">“</span>We closed a deal in literally a few minutes
-                            because we knew their exact budget.<span aria-hidden="true" class="absolute">”</span></p>
-                    </blockquote>
-                    <figcaption class="mt-6 border-t border-white/20 pt-6">
-                        <p class="text-sm/6 font-medium text-white">Amy Chase</p>
-                        <p class="text-sm/6 font-medium"><span
-                                class="bg-linear-to-r from-[#fff1be] from-28% via-[#ee87cb] via-70% to-[#b060ff] bg-clip-text text-transparent">Head
-                                of GTM, Pocket</span></p>
-                    </figcaption>
-                </figure>
-            </div>
-            <div style="opacity: 0.5;"
-                class="relative flex aspect-9/16 w-72 shrink-0 snap-start scroll-ml-(--scroll-padding) flex-col justify-end overflow-hidden rounded-3xl sm:aspect-3/4 sm:w-96">
-                <img alt="" src="https://radiant.tailwindui.com/testimonials/veronica-winton.jpg"
-                    class="absolute inset-x-0 top-0 aspect-square w-full object-cover">
-                <div aria-hidden="true"
-                    class="absolute inset-0 rounded-3xl bg-linear-to-t from-black from-[calc(7/16*100%)] ring-1 ring-gray-950/10 ring-inset sm:from-25%">
-                </div>
-                <figure class="relative p-10">
-                    <blockquote>
-                        <p class="relative text-xl/7 text-white"><span aria-hidden="true"
-                                class="absolute -translate-x-full">“</span>We’ve managed to put two of our main
-                            competitors out of business in 6 months.<span aria-hidden="true" class="absolute">”</span>
-                        </p>
-                    </blockquote>
-                    <figcaption class="mt-6 border-t border-white/20 pt-6">
-                        <p class="text-sm/6 font-medium text-white">Veronica Winton</p>
-                        <p class="text-sm/6 font-medium"><span
-                                class="bg-linear-to-r from-[#fff1be] from-28% via-[#ee87cb] via-70% to-[#b060ff] bg-clip-text text-transparent">CSO,
-                                Planeteria</span></p>
-                    </figcaption>
-                </figure>
-            </div>
-            <div style="opacity: 0.5;"
-                class="relative flex aspect-9/16 w-72 shrink-0 snap-start scroll-ml-(--scroll-padding) flex-col justify-end overflow-hidden rounded-3xl sm:aspect-3/4 sm:w-96">
-                <img alt="" src="https://radiant.tailwindui.com/testimonials/dillon-lenora.jpg"
-                    class="absolute inset-x-0 top-0 aspect-square w-full object-cover">
-                <div aria-hidden="true"
-                    class="absolute inset-0 rounded-3xl bg-linear-to-t from-black from-[calc(7/16*100%)] ring-1 ring-gray-950/10 ring-inset sm:from-25%">
-                </div>
-                <figure class="relative p-10">
-                    <blockquote>
-                        <p class="relative text-xl/7 text-white"><span aria-hidden="true"
-                                class="absolute -translate-x-full">“</span>I was able to replace 80% of my team with
-                            RadiantAI bots.<span aria-hidden="true" class="absolute">”</span></p>
-                    </blockquote>
-                    <figcaption class="mt-6 border-t border-white/20 pt-6">
-                        <p class="text-sm/6 font-medium text-white">Dillon Lenora</p>
-                        <p class="text-sm/6 font-medium"><span
-                                class="bg-linear-to-r from-[#fff1be] from-28% via-[#ee87cb] via-70% to-[#b060ff] bg-clip-text text-transparent">VP
-                                of Sales, Detax</span></p>
-                    </figcaption>
-                </figure>
-            </div>
-            <div style="opacity: 0.5;"
-                class="relative flex aspect-9/16 w-72 shrink-0 snap-start scroll-ml-(--scroll-padding) flex-col justify-end overflow-hidden rounded-3xl sm:aspect-3/4 sm:w-96">
-                <img alt="" src="https://radiant.tailwindui.com/testimonials/harriet-arron.jpg"
-                    class="absolute inset-x-0 top-0 aspect-square w-full object-cover">
-                <div aria-hidden="true"
-                    class="absolute inset-0 rounded-3xl bg-linear-to-t from-black from-[calc(7/16*100%)] ring-1 ring-gray-950/10 ring-inset sm:from-25%">
-                </div>
-                <figure class="relative p-10">
-                    <blockquote>
-                        <p class="relative text-xl/7 text-white"><span aria-hidden="true"
-                                class="absolute -translate-x-full">“</span>I’ve smashed all my targets without having to
-                            speak to a lead in months.<span aria-hidden="true" class="absolute">”</span></p>
-                    </blockquote>
-                    <figcaption class="mt-6 border-t border-white/20 pt-6">
-                        <p class="text-sm/6 font-medium text-white">Harriet Arron</p>
-                        <p class="text-sm/6 font-medium"><span
-                                class="bg-linear-to-r from-[#fff1be] from-28% via-[#ee87cb] via-70% to-[#b060ff] bg-clip-text text-transparent">Account
-                                Manager, Commit</span></p>
-                    </figcaption>
-                </figure>
-            </div>
+            </template>
+
             <div class="w-2xl shrink-0 sm:w-216"></div>
         </div>
+
         <div class="mt-16 px-6 lg:px-8">
             <div class="mx-auto max-w-2xl lg:max-w-7xl">
                 <div class="flex justify-center">
-                    <div class="hidden sm:flex sm:gap-2"><button data-active="true"
-                            aria-label="Scroll to testimonial from Tina Yards"
-                            class="size-2.5 rounded-full border border-transparent bg-gray-300 transition data-active:bg-gray-400 data-hover:bg-gray-400 forced-colors:data-active:bg-[Highlight] forced-colors:data-focus:outline-offset-4"
-                            type="button" data-headlessui-state=""></button><button
-                            aria-label="Scroll to testimonial from Conor Neville"
-                            class="size-2.5 rounded-full border border-transparent bg-gray-300 transition data-active:bg-gray-400 data-hover:bg-gray-400 forced-colors:data-active:bg-[Highlight] forced-colors:data-focus:outline-offset-4"
-                            type="button" data-headlessui-state=""></button><button
-                            aria-label="Scroll to testimonial from Amy Chase"
-                            class="size-2.5 rounded-full border border-transparent bg-gray-300 transition data-active:bg-gray-400 data-hover:bg-gray-400 forced-colors:data-active:bg-[Highlight] forced-colors:data-focus:outline-offset-4"
-                            type="button" data-headlessui-state=""></button><button
-                            aria-label="Scroll to testimonial from Veronica Winton"
-                            class="size-2.5 rounded-full border border-transparent bg-gray-300 transition data-active:bg-gray-400 data-hover:bg-gray-400 forced-colors:data-active:bg-[Highlight] forced-colors:data-focus:outline-offset-4"
-                            type="button" data-headlessui-state=""></button><button
-                            aria-label="Scroll to testimonial from Dillon Lenora"
-                            class="size-2.5 rounded-full border border-transparent bg-gray-300 transition data-active:bg-gray-400 data-hover:bg-gray-400 forced-colors:data-active:bg-[Highlight] forced-colors:data-focus:outline-offset-4"
-                            type="button" data-headlessui-state=""></button><button
-                            aria-label="Scroll to testimonial from Harriet Arron"
-                            class="size-2.5 rounded-full border border-transparent bg-gray-300 transition data-active:bg-gray-400 data-hover:bg-gray-400 forced-colors:data-active:bg-[Highlight] forced-colors:data-focus:outline-offset-4"
-                            type="button" data-headlessui-state=""></button></div>
+                    <div class="hidden sm:flex sm:gap-2">
+                        <template x-for="(testimonial, index) in testimonials" :key="index">
+                            <button @click="scrollTo(index)"
+                                :data-active="activeIndex === index"
+                                :aria-label="'Scroll to testimonial from ' + testimonial.name"
+                                class="size-2.5 rounded-full border border-transparent bg-zinc-300 transition data-active:bg-zinc-400 data-hover:bg-zinc-400 forced-colors:data-active:bg-[Highlight] forced-colors:data-focus:outline-offset-4"
+                                type="button"></button>
+                        </template>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        function carousel() {
+            return {
+                testimonials: [
+                    {
+                        img: 'https://radiant.tailwindui.com/testimonials/tina-yards.jpg',
+                        name: 'Tina Yards',
+                        title: 'VP of Sales, Protocol',
+                        quote: "Thanks to Radiant, we're finding new leads that we never would have found with legal methods."
+                    },
+                    {
+                        img: 'https://radiant.tailwindui.com/testimonials/conor-neville.jpg',
+                        name: 'Conor Neville',
+                        title: 'Head of Customer Success, TaxPal',
+                        quote: 'Radiant made undercutting all of our competitors an absolute breeze.'
+                    },
+                    {
+                        img: 'https://radiant.tailwindui.com/testimonials/amy-chase.jpg',
+                        name: 'Amy Chase',
+                        title: 'Head of GTM, Pocket',
+                        quote: 'We closed a deal in literally a few minutes because we knew their exact budget.'
+                    },
+                    {
+                        img: 'https://radiant.tailwindui.com/testimonials/veronica-winton.jpg',
+                        name: 'Veronica Winton',
+                        title: 'CSO, Planeteria',
+                        quote: "We've managed to put two of our main competitors out of business in 6 months."
+                    },
+                    {
+                        img: 'https://radiant.tailwindui.com/testimonials/dillon-lenora.jpg',
+                        name: 'Dillon Lenora',
+                        title: 'VP of Sales, Detax',
+                        quote: 'I was able to replace 80% of my team with RadiantAI bots.'
+                    },
+                    {
+                        img: 'https://radiant.tailwindui.com/testimonials/harriet-arron.jpg',
+                        name: 'Harriet Arron',
+                        title: 'Account Manager, Commit',
+                        quote: "I've smashed all my targets without having to speak to a lead in months."
+                    }
+                ],
+                activeIndex: 0,
+                bounds: { left: 0, right: 0, width: 0 },
+                opacities: [1, 1, 1, 1, 1, 1],
+
+                init() {
+                    this.$nextTick(() => {
+                        this.updateBounds();
+                        this.updateOpacities();
+
+                        const resizeObserver = new ResizeObserver(() => {
+                            this.updateBounds();
+                            this.updateOpacities();
+                        });
+                        resizeObserver.observe(this.$refs.scrollContainer);
+                    });
+                },
+
+                updateBounds() {
+                    const container = this.$refs.scrollContainer;
+                    if (!container) return;
+
+                    const rect = container.getBoundingClientRect();
+                    this.bounds = {
+                        left: rect.left,
+                        right: rect.right,
+                        width: rect.width
+                    };
+                },
+
+                computeOpacity(cardEl) {
+                    if (!cardEl || this.bounds.width === 0) return 1;
+
+                    const rect = cardEl.getBoundingClientRect();
+
+                    if (rect.left < this.bounds.left) {
+                        const diff = this.bounds.left - rect.left;
+                        const percent = diff / rect.width;
+                        return Math.max(0.5, 1 - percent);
+                    } else if (rect.right > this.bounds.right) {
+                        const diff = rect.right - this.bounds.right;
+                        const percent = diff / rect.width;
+                        return Math.max(0.5, 1 - percent);
+                    }
+                    return 1;
+                },
+
+                updateOpacities() {
+                    const container = this.$refs.scrollContainer;
+                    if (!container) return;
+
+                    const cards = container.querySelectorAll('[data-testimonial-card]');
+                    cards.forEach((card, index) => {
+                        if (index < this.testimonials.length) {
+                            this.opacities[index] = this.computeOpacity(card);
+                        }
+                    });
+                },
+
+                onScroll() {
+                    const container = this.$refs.scrollContainer;
+                    if (!container) return;
+
+                    const cards = container.querySelectorAll('[data-testimonial-card]');
+                    if (cards.length === 0) return;
+
+                    const cardWidth = cards[0].offsetWidth;
+                    const gap = 32;
+
+                    this.activeIndex = Math.floor(container.scrollLeft / (cardWidth + gap));
+                    this.updateBounds();
+                    this.updateOpacities();
+                },
+
+                scrollTo(index) {
+                    const container = this.$refs.scrollContainer;
+                    if (!container) return;
+
+                    const cards = container.querySelectorAll('[data-testimonial-card]');
+                    if (cards.length === 0) return;
+
+                    const cardWidth = cards[0].offsetWidth;
+                    const gap = 32;
+
+                    container.scrollTo({
+                        left: (cardWidth + gap) * index,
+                        behavior: 'smooth'
+                    });
+                }
+            }
+        }
+    </script>
 </body>
 
 </html>
