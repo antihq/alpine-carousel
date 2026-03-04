@@ -4,42 +4,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Alpine Carousel</title>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 
 <body>
-    <div x-data="carousel()" class="overflow-hidden py-32">
+    <div x-data="carousel()" class="overflow-hidden py-32 min-h-screen flex flex-col justify-center">
         <div x-ref="scrollContainer" @scroll="onScroll()"
             class="flex gap-8 px-(--scroll-padding) [scrollbar-width:none] [&::-webkit-scrollbar]:hidden snap-x snap-mandatory overflow-x-auto overscroll-x-contain scroll-smooth [--scroll-padding:max(--spacing(6),calc((100vw-(var(--container-2xl)))/2))] lg:[--scroll-padding:max(--spacing(8),calc((100vw-(var(--container-7xl)))/2))]">
 
-            <template x-for="(testimonial, index) in testimonials" :key="index">
+            <template x-for="(photo, index) in photos" :key="index">
                 <div
-                    data-testimonial-card
+                    data-photo-card
                     @click="scrollTo(index)"
                     :style="'opacity: ' + opacities[index]"
                     class="relative flex aspect-9/16 w-72 shrink-0 snap-start scroll-ml-(--scroll-padding) flex-col justify-end overflow-hidden rounded-3xl sm:aspect-3/4 sm:w-96 transition-opacity duration-200 ease-out cursor-pointer"
                 >
-                    <img :alt="testimonial.name" :src="testimonial.img"
+                    <img :alt="photo.name" :src="photo.img"
                         class="absolute inset-x-0 top-0 aspect-square w-full object-cover">
                     <div aria-hidden="true"
                         class="absolute inset-0 rounded-3xl bg-linear-to-t from-black from-[calc(7/16*100%)] ring-1 ring-zinc-950/10 ring-inset sm:from-25%"></div>
                     <figure class="relative p-10">
-                        <blockquote>
-                            <p class="relative text-xl/7 text-white">
-                                <span aria-hidden="true" class="absolute -translate-x-full">"</span>
-                                <span x-text="testimonial.quote"></span>
-                                <span aria-hidden="true" class="absolute">"</span>
-                            </p>
-                        </blockquote>
-                        <figcaption class="mt-6 border-t border-white/20 pt-6">
-                            <p class="text-sm/6 font-medium text-white" x-text="testimonial.name"></p>
-                            <p class="text-sm/6 font-medium">
-                                <span
-                                    class="bg-linear-to-r from-[#fff1be] from-28% via-[#ee87cb] via-70% to-[#b060ff] bg-clip-text text-transparent"
-                                    x-text="testimonial.title"></span>
-                            </p>
+                        <figcaption>
+                            <p class="text-sm/6 font-medium text-white" x-text="photo.author"></p>
                         </figcaption>
                     </figure>
                 </div>
@@ -52,10 +40,10 @@
             <div class="mx-auto max-w-2xl lg:max-w-7xl">
                 <div class="flex justify-center">
                     <div class="hidden sm:flex sm:gap-2">
-                        <template x-for="(testimonial, index) in testimonials" :key="index">
+                        <template x-for="(photo, index) in photos" :key="index">
                             <button @click="scrollTo(index)"
                                 :data-active="activeIndex === index"
-                                :aria-label="'Scroll to testimonial from ' + testimonial.name"
+                                :aria-label="'Scroll to photo from ' + photo.name"
                                 class="size-2.5 rounded-full border border-transparent bg-zinc-300 transition data-active:bg-zinc-400 data-hover:bg-zinc-400 forced-colors:data-active:bg-[Highlight] forced-colors:data-focus:outline-offset-4"
                                 type="button"></button>
                         </template>
@@ -68,42 +56,30 @@
     <script>
         function carousel() {
             return {
-                testimonials: [
+                photos: [
                     {
-                        img: 'https://radiant.tailwindui.com/testimonials/tina-yards.jpg',
-                        name: 'Tina Yards',
-                        title: 'VP of Sales, Protocol',
-                        quote: "Thanks to Radiant, we're finding new leads that we never would have found with legal methods."
+                        img: '/erik-eastman-4HG5hlhmZg8-unsplash.jpg',
+                        author: 'Erik Eastman',
                     },
                     {
-                        img: 'https://radiant.tailwindui.com/testimonials/conor-neville.jpg',
-                        name: 'Conor Neville',
-                        title: 'Head of Customer Success, TaxPal',
-                        quote: 'Radiant made undercutting all of our competitors an absolute breeze.'
+                        img: '/yoav-aziz-tKCd-IWc4gI-unsplash.jpg',
+                        author: 'Yoav Aziz',
                     },
                     {
-                        img: 'https://radiant.tailwindui.com/testimonials/amy-chase.jpg',
-                        name: 'Amy Chase',
-                        title: 'Head of GTM, Pocket',
-                        quote: 'We closed a deal in literally a few minutes because we knew their exact budget.'
+                        img: '/pawel-nolbert-4u2U8EO9OzY-unsplash.jpg',
+                        author: 'Pawel Nolbert',
                     },
                     {
-                        img: 'https://radiant.tailwindui.com/testimonials/veronica-winton.jpg',
-                        name: 'Veronica Winton',
-                        title: 'CSO, Planeteria',
-                        quote: "We've managed to put two of our main competitors out of business in 6 months."
+                        img: '/ryoji-iwata-TRJjPc0wss0-unsplash.jpg',
+                        author: 'Ryoji Iwata',
                     },
                     {
-                        img: 'https://radiant.tailwindui.com/testimonials/dillon-lenora.jpg',
-                        name: 'Dillon Lenora',
-                        title: 'VP of Sales, Detax',
-                        quote: 'I was able to replace 80% of my team with RadiantAI bots.'
+                        img: '/sergio-rola-bVM7IO7pt7s-unsplash.jpg',
+                        author: 'Sérgio Rola',
                     },
                     {
-                        img: 'https://radiant.tailwindui.com/testimonials/harriet-arron.jpg',
-                        name: 'Harriet Arron',
-                        title: 'Account Manager, Commit',
-                        quote: "I've smashed all my targets without having to speak to a lead in months."
+                        img: '/derch-4CMq1GxDSPA-unsplash.jpg',
+                        author: 'Derch',
                     }
                 ],
                 activeIndex: 0,
@@ -149,16 +125,19 @@
                         const percent = diff / rect.width;
                         return Math.max(0.5, 1 - percent);
                     }
+
                     return 1;
                 },
 
                 updateOpacities() {
                     const container = this.$refs.scrollContainer;
+
                     if (!container) return;
 
-                    const cards = container.querySelectorAll('[data-testimonial-card]');
+                    const cards = container.querySelectorAll('[data-photo-card]');
+
                     cards.forEach((card, index) => {
-                        if (index < this.testimonials.length) {
+                        if (index < this.photos.length) {
                             this.opacities[index] = this.computeOpacity(card);
                         }
                     });
@@ -166,12 +145,15 @@
 
                 onScroll() {
                     const container = this.$refs.scrollContainer;
+
                     if (!container) return;
 
-                    const cards = container.querySelectorAll('[data-testimonial-card]');
+                    const cards = container.querySelectorAll('[data-photo-card]');
+
                     if (cards.length === 0) return;
 
                     const cardWidth = cards[0].offsetWidth;
+
                     const gap = 32;
 
                     this.activeIndex = Math.floor(container.scrollLeft / (cardWidth + gap));
@@ -181,12 +163,15 @@
 
                 scrollTo(index) {
                     const container = this.$refs.scrollContainer;
+
                     if (!container) return;
 
-                    const cards = container.querySelectorAll('[data-testimonial-card]');
+                    const cards = container.querySelectorAll('[data-photo-card]');
+
                     if (cards.length === 0) return;
 
                     const cardWidth = cards[0].offsetWidth;
+
                     const gap = 32;
 
                     container.scrollTo({
